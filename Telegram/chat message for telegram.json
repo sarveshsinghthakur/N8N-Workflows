@@ -1,0 +1,118 @@
+{
+  "name": "My workflow 7",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0616b691-86d1-4a4b-9291-02ba96377f46",
+      "name": "Telegram Trigger",
+      "webhookId": "c76f8d33-0378-4cba-9325-9a92e0e0470f",
+      "credentials": {
+        "telegramApi": {
+          "id": "5eInsgNvGNpMFmut",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "you are helpful assitant to answer all type of question in deep reaseach and give all info in 3000 words"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c3de28c4-f85c-4067-bca7-89635cb3a676",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "h4BO0YZyc3VR90mk",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.message.content }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "5d20cafd-0c2a-40c9-8af9-3d358d756afa",
+      "name": "Send a text message",
+      "webhookId": "9529e708-1572-49d4-a011-9c7f061a6dab",
+      "credentials": {
+        "telegramApi": {
+          "id": "5eInsgNvGNpMFmut",
+          "name": "Telegram account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d57dd494-43b5-4cdf-a965-7271398b8c20",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f03c82b8f7e849d71046d577bdd2aac4188254461ad55c910bea4e55a3be3187"
+  },
+  "id": "pNe9u7zj34vauEL2",
+  "tags": []
+}

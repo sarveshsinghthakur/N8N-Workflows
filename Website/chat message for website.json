@@ -1,0 +1,162 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7cb383a6-492b-48db-9e43-3f37083d9f51",
+      "name": "When chat message received",
+      "webhookId": "318baa7a-3761-49d7-89e9-c4a170fe69ee"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant name is sarvesh singh of my portfolio and gave my self to my user but not my personal info and you have to assist them what i had done or what am i doing through my github link -> https://github.com/sarveshsinghthakur"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a7ba2b55-d45e-4ffd-83c1-072a944dd0f1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        208
+      ],
+      "id": "f52b9951-c083-449c-b76f-2c608671eb4d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "h4BO0YZyc3VR90mk",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "1793534e-d3e4-447b-aae1-991712745860",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_CA62OJJmxguyS4Eqey1V8wQh5p_1e8omGU3chI9n_M",
+          "mode": "list",
+          "cachedResultName": "#3 AICTE OIB-SIP JE2 2024",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_CA62OJJmxguyS4Eqey1V8wQh5p_1e8omGU3chI9n_M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 891834841,
+          "mode": "list",
+          "cachedResultName": "OIB-SIP",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_CA62OJJmxguyS4Eqey1V8wQh5p_1e8omGU3chI9n_M/edit#gid=891834841"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        368,
+        208
+      ],
+      "id": "35097ed9-0344-4e21-a994-7c30ce4ee89f",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Z2uBgB7cUcnrNnqk",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "931180e0-e8b8-4c17-9791-45d315d6064a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f03c82b8f7e849d71046d577bdd2aac4188254461ad55c910bea4e55a3be3187"
+  },
+  "id": "no2hneCdycPvdI41",
+  "tags": []
+}
