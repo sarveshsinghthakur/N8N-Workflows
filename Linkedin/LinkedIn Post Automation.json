@@ -1,0 +1,161 @@
+{
+  "name": "LinkedIn Post Automation with Image and Topic Selection",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "LinkedIn Content Configuration",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "What topic do you want to post about?",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Preferred post length (characters)",
+              "fieldType": "number",
+              "placeholder": "100"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e5bbc83b-9e6e-4e24-9cf7-835182a29ca2",
+      "name": "Content Configuration Form",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -1024,
+        224
+      ],
+      "webhookId": "8a6093c8-98ce-4b59-83ee-b984f2374b7a"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "ai_prompt",
+              "value": "=Create a LinkedIn post about {{ $json.topic }} Keep it under {{ $json.post_length }} characters. Make it engaging and professional.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aa3dd04d-ea09-49c8-91f8-78fc0f84fbf7",
+      "name": "Prepare AI Prompt",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -800,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $('Prepare AI Prompt').item.json.ai_prompt }}"
+            }
+          ]
+        },
+        "options": {
+          "maxOutputTokens": 500,
+          "temperature": 0.7
+        }
+      },
+      "id": "5d67bb5d-f1e8-4df3-95a7-944c0b3c64af",
+      "name": "AI Content Generator",
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        224
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "qhvpv28u3HTZeibc",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "person": "5XdIc-csEQ",
+        "text": "={{ $json.content.parts[0].text }}",
+        "additionalFields": {
+          "visibility": "PUBLIC"
+        }
+      },
+      "id": "dd29d688-2fb6-4ea1-b2ef-e32d006ad2cc",
+      "name": "Post to LinkedIn",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        224
+      ],
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "1KUcMM29mUywgST2",
+          "name": "LinkedIn account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Content Configuration Form": {
+      "main": [
+        [
+          {
+            "node": "Prepare AI Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare AI Prompt": {
+      "main": [
+        [
+          {
+            "node": "AI Content Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Content Generator": {
+      "main": [
+        [
+          {
+            "node": "Post to LinkedIn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "78f20ae9-c363-46c4-aa94-02675391322e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9c383ef536e83f8d424c41182b9b1da74db301bc2a73f0b694a9d477cc4c98c1"
+  },
+  "id": "UbyW4sveir35frUn",
+  "tags": []
+}
