@@ -3,19 +3,13 @@
 Welcome to the N8N Workflows repository!  
 This repository contains a collection of automation workflows for [n8n](https://n8n.io/).
 
-## 📅 Today's Project
-
-<!-- This section is updated automatically every day -->
-
-| Date       | Project Name | Directory  | Description                        |
-|------------|--------------|------------|-------------------------------------|
-| 2025-09-02 | Example      | [Telegram](./Telegram/) | Brief description of today's project goes here. |
 
 ## 📝 All Projects
 
 - [Telegram Workflows](./Telegram/)
 - [Website Workflows](./Website/)
 - [Whatsapp Workflows](./Whatsapp/)
+- [Linkedin Workflows](./Linkedin/)
 
 ## 🚀 Getting Started
 
